@@ -26,7 +26,7 @@ FILE_EXTENSION = .cpp
 SRCS_PATH      = ./src
 INCLUDE_PATH   = ./src
 
-SRCS_LIST      = 
+SRCS_LIST      = CubeClass.cpp
 
 MAIN           = main.cpp
 
