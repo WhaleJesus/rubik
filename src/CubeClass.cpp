@@ -256,24 +256,27 @@ void Cube::moveF()
 {
     rotateFaceClockwise(F);
 
-    char u[3], r[3], d[3], l[3];
+	char tmp[3];
+    
+	tmp[0] = _faces[U][6];
+	tmp[1] = _faces[U][7];
+	tmp[2] = _faces[U][8];
 
-    getRow(U, 2, u);   // U bottom
-    getCol(R, 0, r);   // R left
-    getRow(D, 0, d);   // D top
-    getCol(L, 2, l);   // L right
+	_faces[U][6] = _faces[L][8];
+	_faces[U][7] = _faces[L][5];
+	_faces[U][8] = _faces[L][2];
 
-    // U -> R (NO reverse)
-    setColRev(R, 0, u);
+	_faces[L][8] = _faces[D][2];
+	_faces[L][5] = _faces[D][1];
+	_faces[L][2] = _faces[D][0];
 
-    // R -> D (REVERSED)
-    setRowRev(D, 0, r);
+	_faces[D][2] = _faces[R][0];
+	_faces[D][1] = _faces[R][3];
+	_faces[D][0] = _faces[R][6];
 
-    // D -> L (NO reverse)
-    setColRev(L, 2, d);
-
-    // L -> U (REVERSED)
-    setRowRev(U, 2, l);
+	_faces[R][0] = tmp[0];
+	_faces[R][3] = tmp[1];
+	_faces[R][6] = tmp[2];
 }
 
 void Cube::moveF(int direction)
@@ -298,6 +301,9 @@ void Cube::moveF(int direction)
     }
 	std::cout << std::endl;
 }
+
+
+
 
 void	Cube::display()
 {

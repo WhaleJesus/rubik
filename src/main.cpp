@@ -5,7 +5,8 @@ int	main(void)
 {
 	Cube cube;
 
-	cube.display();
 	cube.moveF(1);
+	cube.display();
+	cube.moveR(1);
 	cube.display();
 }
