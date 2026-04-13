@@ -14,66 +14,6 @@ Cube::Cube()
 
 Cube::~Cube(){};
 
-void Cube::getRow(int face, int row, char out[3])
-{
-    for (int i = 0; i < 3; i++)
-        out[i] = _faces[face][row * 3 + i];
-}
-
-void Cube::setRow(int face, int row, char in[3])
-{
-    for (int i = 0; i < 3; i++)
-        _faces[face][row * 3 + i] = in[i];
-}
-
-void Cube::getRowRev(int face, int row, char out[3])
-{
-    for (int i = 0; i < 3; i++)
-    {
-        out[i] = _faces[face][row * 3 + (2 - i)];
-    }
-}
-
-void Cube::setRowRev(int face, int row, char in[3])
-{
-    for (int i = 0; i < 3; i++)
-    {
-        _faces[face][row * 3 + (2 - i)] = in[i];
-    }
-}
-
-void Cube::getCol(int face, int col, char out[3])
-{
-	for (int i = 0; i < 3; i++)
-	{
-		out[i] = _faces[face][col + i * 3];
-	}
-};
-
-void Cube::setCol(int face, int col, char in[3])
-{
-	for (int i = 0; i < 3; i++)
-	{
-		_faces[face][col + i * 3] = in[i];
-	}
-};
-
-void Cube::getColRev(int face, int col, char out[3])
-{
-    for (int i = 0; i < 3; i++)
-    {
-        out[i] = _faces[face][col + (2 - i) * 3];
-    }
-}
-
-void Cube::setColRev(int face, int col, char in[3])
-{
-    for (int i = 0; i < 3; i++)
-    {
-        _faces[face][col + (2 - i) * 3] = in[i];
-    }
-}
-
 void	Cube::rotateFaceClockwise(int f)
 {
     char tmp[9];
@@ -97,16 +37,26 @@ void Cube::moveU()
     rotateFaceClockwise(U);
 
     char tmp[3];
-    char buf[3];
 
-    getRow(F, 0, tmp);
-	getRow(R, 0, buf);
-    setRow(F, 0, buf);
-	getRow(B, 0, buf);
-    setRow(R, 0, buf);
-	getRow(L, 0, buf);
-    setRow(B, 0, buf);
-    setRow(L, 0, tmp);
+	tmp[0] = _faces[F][0];
+	tmp[1] = _faces[F][1];
+	tmp[2] = _faces[F][2];
+
+	_faces[F][0] = _faces[R][0];
+	_faces[F][1] = _faces[R][1];
+	_faces[F][2] = _faces[R][2];
+
+	_faces[R][0] = _faces[B][8];
+	_faces[R][1] = _faces[B][7];
+	_faces[R][2] = _faces[B][6];
+
+	_faces[B][8] = _faces[L][0];
+	_faces[B][7] = _faces[L][1];
+	_faces[B][6] = _faces[L][2];
+
+	_faces[L][0] = tmp[0];
+	_faces[L][1] = tmp[1];
+	_faces[L][2] = tmp[2];
 }
 
 void Cube::moveU(int direction)
@@ -137,16 +87,26 @@ void Cube::moveD()
     rotateFaceClockwise(D);
 
     char tmp[3];
-    char buf[3];
 
-    getRow(F, 2, tmp);
-	getRow(L, 2, buf);
-    setRow(F, 2, buf);
-	getRow(B, 2, buf);
-    setRow(L, 2, buf);
-	getRow(R, 2, buf);
-    setRow(B, 2, buf);
-    setRow(R, 2, tmp);
+	tmp[0] = _faces[F][6];
+	tmp[1] = _faces[F][7];
+	tmp[2] = _faces[F][8];
+
+	_faces[F][6] = _faces[L][6];
+	_faces[F][7] = _faces[L][7];
+	_faces[F][8] = _faces[L][8];
+	
+	_faces[L][6] = _faces[B][2];
+	_faces[L][7] = _faces[B][1];
+	_faces[L][8] = _faces[B][0];
+	
+	_faces[B][0] = _faces[R][8];
+	_faces[B][1] = _faces[R][7];
+	_faces[B][2] = _faces[R][6];
+
+	_faces[R][6] = tmp[0];
+	_faces[R][7] = tmp[1];
+	_faces[R][8] = tmp[2];
 }
 
 void Cube::moveD(int direction)
@@ -177,16 +137,26 @@ void Cube::moveR()
     rotateFaceClockwise(R);
 
     char tmp[3];
-    char buf[3];
 
-    getCol(F, 2, tmp);
-	getCol(D, 2, buf);
-    setCol(F, 2, buf);
-	getCol(B, 2, buf);
-    setCol(D, 2, buf);
-	getCol(U, 2, buf);
-    setCol(B, 2, buf);
-    setCol(U, 2, tmp);
+	tmp[0] = _faces[F][2];
+	tmp[1] = _faces[F][5];
+	tmp[2] = _faces[F][8];
+
+	_faces[F][2] = _faces[D][2];
+	_faces[F][5] = _faces[D][5];
+	_faces[F][8] = _faces[D][8];
+
+	_faces[D][2] = _faces[B][2];
+	_faces[D][5] = _faces[B][5];
+	_faces[D][8] = _faces[B][8];
+
+	_faces[B][2] = _faces[U][2];
+	_faces[B][5] = _faces[U][5];
+	_faces[B][8] = _faces[U][8];
+
+	_faces[U][2] = tmp[0];
+	_faces[U][5] = tmp[1];
+	_faces[U][8] = tmp[2];
 }
 
 void Cube::moveR(int direction)
@@ -217,16 +187,26 @@ void Cube::moveL()
     rotateFaceClockwise(L);
 
     char tmp[3];
-    char buf[3];
 
-    getCol(F, 0, tmp);
-	getCol(U, 0, buf);
-    setCol(F, 0, buf);
-	getCol(B, 0, buf);
-    setCol(U, 0, buf);
-	getCol(D, 0, buf);
-    setCol(B, 0, buf);
-    setCol(D, 0, tmp);
+	tmp[0] = _faces[F][0]; 
+	tmp[1] = _faces[F][3]; 
+	tmp[2] = _faces[F][6];
+
+	_faces[F][0] = _faces[U][0];
+	_faces[F][3] = _faces[U][3];
+	_faces[F][6] = _faces[U][6];
+
+	_faces[U][0] = _faces[B][0];
+	_faces[U][3] = _faces[B][3];
+	_faces[U][6] = _faces[B][6];
+
+	_faces[B][0] = _faces[D][0];
+	_faces[B][3] = _faces[D][3];
+	_faces[B][6] = _faces[D][6];
+
+	_faces[D][0] = tmp[0];
+	_faces[D][3] = tmp[1];
+	_faces[D][6] = tmp[2];
 }
 
 void Cube::moveL(int direction)
@@ -302,11 +282,59 @@ void Cube::moveF(int direction)
 	std::cout << std::endl;
 }
 
+void Cube::moveB()
+{
+	rotateFaceClockwise(B);
 
+	char tmp[3];
 
+	tmp[0] = _faces[R][2];
+	tmp[1] = _faces[R][5];
+	tmp[2] = _faces[R][8];
+
+	_faces[R][2] = _faces[D][8];
+	_faces[R][5] = _faces[D][7];
+	_faces[R][8] = _faces[D][6];
+
+	_faces[D][8] = _faces[L][6];
+	_faces[D][7] = _faces[L][3];
+	_faces[D][6] = _faces[L][0];
+
+	_faces[L][6] = _faces[U][0];
+	_faces[L][3] = _faces[U][1];
+	_faces[L][0] = _faces[U][2];
+
+	_faces[U][0] = tmp[0];
+	_faces[U][1] = tmp[1];
+	_faces[U][2] = tmp[2];
+}
+
+void Cube::moveB(int direction)
+{
+    if (direction == 1)
+	{
+		std::cout << "B";
+        moveB();
+	}
+    else if (direction == -1)
+    {
+		std::cout << "B'";
+        moveB();
+        moveB();
+        moveB();
+    }
+    else if (direction == 2)
+    {
+		std::cout << "B2";
+        moveB();
+        moveB();
+    }
+	std::cout << std::endl;
+}
 
 void	Cube::display()
 {
+	/*
 	const char	*faces = "UDFBLR";
 	for (size_t i = 0; i < 6; i++) {
 		std::cout << *faces << std::endl;
@@ -317,5 +345,30 @@ void	Cube::display()
 				std::cout << std::endl;
 		}
 	}
+	*/
+
+	std::cout << "     " << _faces[L][6] << _faces[L][3] << _faces[L][0] << std::endl;
+	std::cout << "     " << _faces[L][7] << _faces[L][4] << _faces[L][1] << std::endl;
+	std::cout << "     " << _faces[L][8] << _faces[L][5] << _faces[L][2] << std::endl;
+	
+	std::cout << " " <<_faces[D][6] << _faces[D][3] << _faces[D][0];
+	std::cout << " " <<_faces[F][6] << _faces[F][3] << _faces[F][0];
+	std::cout << " " <<_faces[U][6] << _faces[U][3] << _faces[U][0];
+	std::cout << " " <<_faces[B][6] << _faces[B][3] << _faces[B][0];
+	std::cout << std::endl;
+	std::cout << " " <<_faces[D][7] << _faces[D][4] << _faces[D][1];
+	std::cout << " " <<_faces[F][7] << _faces[F][4] << _faces[F][1];
+	std::cout << " " <<_faces[U][7] << _faces[U][4] << _faces[U][1];
+	std::cout << " " <<_faces[B][7] << _faces[B][4] << _faces[B][1];
+	std::cout << std::endl;
+	std::cout << " " <<_faces[D][8] << _faces[D][5] << _faces[D][2];
+	std::cout << " " <<_faces[F][8] << _faces[F][5] << _faces[F][2];
+	std::cout << " " <<_faces[U][8] << _faces[U][5] << _faces[U][2];
+	std::cout << " " <<_faces[B][8] << _faces[B][5] << _faces[B][2];
+	std::cout << std::endl;
+
+	std::cout << "     " << _faces[R][6] << _faces[R][3] << _faces[R][0] << std::endl;
+	std::cout << "     " << _faces[R][7] << _faces[R][4] << _faces[R][1] << std::endl;
+	std::cout << "     " << _faces[R][8] << _faces[R][5] << _faces[R][2] << std::endl;
 };
 

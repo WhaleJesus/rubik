@@ -12,16 +12,6 @@ class Cube
 		Cube();
 		~Cube();
 		
-		void getRow(int face, int row, char out[3]);
-		void setRow(int face, int row, char in[3]);
-		void getRowRev(int face, int row, char out[3]);
-		void setRowRev(int face, int row, char in[3]);
-		
-		void getCol(int face, int col, char out[3]);
-		void setCol(int face, int col, char in[3]);
-		void getColRev(int face, int col, char out[3]);
-		void setColRev(int face, int col, char in[3]);
-		
 		void	rotateFaceClockwise(int f);
 		void	moveU();
 		void	moveU(int direction);
