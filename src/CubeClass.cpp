@@ -1,9 +1,10 @@
 #include <iostream>
 #include "../include/CubeClass.hpp"
+#include "../include/rubik.hpp"
 
 Cube::Cube()
 {
-	const char	*colors = "UDFBLR";
+	const char	*colors = "WYGBOR";
 	for (size_t i = 0; i < 6; i++) {
 		for (size_t j = 0; j < 9; j++) {
 			_faces[i][j] = *colors;
@@ -13,6 +14,11 @@ Cube::Cube()
 };
 
 Cube::~Cube(){};
+
+char 	Cube::get(int face, int row, int col) const
+{
+	return _faces[face][row * 3 + col];
+};
 
 void	Cube::rotateFaceClockwise(int f)
 {
@@ -332,43 +338,65 @@ void Cube::moveB(int direction)
 	std::cout << std::endl;
 }
 
-void	Cube::display()
+void setColor(char c) 
 {
-	/*
-	const char	*faces = "UDFBLR";
-	for (size_t i = 0; i < 6; i++) {
-		std::cout << *faces << std::endl;
-		faces++;
-		for (size_t j = 0; j < 9; j++) {
-			std::cout << _faces[i][j];
-			if ((j + 1) % 3 == 0)
-				std::cout << std::endl;
-		}
-	}
-	*/
+	if (c == 'W')
+		std::cout << WHITE;
+	else if (c == 'O')
+		std::cout << ORANGE;
+	else if (c == 'G')
+		std::cout << GREEN;
+	else if (c == 'R')
+		std::cout << RED;
+	else if (c == 'B')
+		std::cout << BLUE;
+	else if (c == 'Y')
+		std::cout << YELLOW;
+	std::cout << c;
+}
 
-	std::cout << "     " << _faces[L][6] << _faces[L][3] << _faces[L][0] << std::endl;
-	std::cout << "     " << _faces[L][7] << _faces[L][4] << _faces[L][1] << std::endl;
-	std::cout << "     " << _faces[L][8] << _faces[L][5] << _faces[L][2] << std::endl;
-	
-	std::cout << " " <<_faces[D][6] << _faces[D][3] << _faces[D][0];
-	std::cout << " " <<_faces[F][6] << _faces[F][3] << _faces[F][0];
-	std::cout << " " <<_faces[U][6] << _faces[U][3] << _faces[U][0];
-	std::cout << " " <<_faces[B][6] << _faces[B][3] << _faces[B][0];
-	std::cout << std::endl;
-	std::cout << " " <<_faces[D][7] << _faces[D][4] << _faces[D][1];
-	std::cout << " " <<_faces[F][7] << _faces[F][4] << _faces[F][1];
-	std::cout << " " <<_faces[U][7] << _faces[U][4] << _faces[U][1];
-	std::cout << " " <<_faces[B][7] << _faces[B][4] << _faces[B][1];
-	std::cout << std::endl;
-	std::cout << " " <<_faces[D][8] << _faces[D][5] << _faces[D][2];
-	std::cout << " " <<_faces[F][8] << _faces[F][5] << _faces[F][2];
-	std::cout << " " <<_faces[U][8] << _faces[U][5] << _faces[U][2];
-	std::cout << " " <<_faces[B][8] << _faces[B][5] << _faces[B][2];
-	std::cout << std::endl;
+void Cube::printRow(int face, int start)
+{
+    for (int i = 0; i < 3; i++)
+        setColor(_faces[face][start + i]);
+}
 
-	std::cout << "     " << _faces[R][6] << _faces[R][3] << _faces[R][0] << std::endl;
-	std::cout << "     " << _faces[R][7] << _faces[R][4] << _faces[R][1] << std::endl;
-	std::cout << "     " << _faces[R][8] << _faces[R][5] << _faces[R][2] << std::endl;
-};
+void Cube::printRowRaw(int face, int start)
+{
+    for (int i = 0; i < 3; i++)
+        setColor(_faces[face][start + i]);
+}
+
+void Cube::display()
+{
+    // --- U face ---
+    for (int i = 0; i < 3; i++)
+    {
+        std::cout << "     ";
+        printRow(U, i * 3);
+        std::cout << std::endl;
+    }
+
+    // --- Middle layer: L F R B ---
+    for (int i = 0; i < 3; i++)
+    {
+        std::cout << " ";
+        printRow(L, i * 3);
+        std::cout << " ";
+        printRow(F, i * 3);
+        std::cout << " ";
+        printRow(R, i * 3);
+        std::cout << " ";
+        printRow(B, i * 3);
+        std::cout << std::endl;
+    }
+
+    // --- D face ---
+    for (int i = 0; i < 3; i++)
+    {
+        std::cout << "     ";
+        printRow(D, i * 3);
+        std::cout << std::endl;
+    }
+}
 
